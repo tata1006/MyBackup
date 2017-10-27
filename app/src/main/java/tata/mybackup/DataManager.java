@@ -1,8 +1,6 @@
 package tata.mybackup;
 
-import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -11,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 /**
  * Created by Sonia on 2017/10/18.
  */
@@ -18,11 +17,12 @@ import java.io.InputStream;
 public class DataManager {
     private static String TAG = DataManager.class.getSimpleName();
 
-    public static String readFileFromAssets(Context context, String fileName) {
+
+    public static String readFileFromAssets(String fileName) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
-            if (null == context || null == fileName) return null;
-            AssetManager am = context.getAssets();
+            if (null == MyBackApplication.getContext() || null == fileName) return null;
+            AssetManager am =  MyBackApplication.getContext().getAssets();
             InputStream input = am.open(fileName);
             byte[] buffer = new byte[1024];
             int len = 0;
@@ -33,7 +33,7 @@ public class DataManager {
             input.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            Log.d(TAG,"Failed to readFileFromAssets:" + e.toString());
+            MyBackApplication.toLog(TAG,"Failed to readFileFromAssets:" + e.toString());
             e.printStackTrace();
             return output.toString();
         }
@@ -46,7 +46,7 @@ public class DataManager {
         try {
             obj = gson.fromJson(content, classOfT);
         } catch (JsonSyntaxException e) {
-            Log.d(TAG,"Failed to convert gson:" + e.toString());
+            MyBackApplication.toLog(TAG,"Failed to convert gson:" + e.toString());
             e.printStackTrace();
         }
         return obj;
