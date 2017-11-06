@@ -31,4 +31,11 @@ public class ScheduleManager extends JsonManager {
          MyBackApplication.toLog(TAG,"Interval:" + schedule.Interval);
       }
    }
+
+   @Override
+   public Config FindConfig(String file_ext) {
+      return null;
+   }
+
+
 }

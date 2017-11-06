@@ -18,7 +18,7 @@ public class ConfigManager extends JsonManager {
    private String PATH = "config.txt";
 
    @SerializedName("configs")
-   private ArrayList<Config> confings;
+   private ArrayList<Config> confings = new ArrayList<>();
 
    @Override
    public void ProcessJsonConfig() {
@@ -35,6 +35,17 @@ public class ConfigManager extends JsonManager {
          MyBackApplication.toLog(TAG,"Destination:" + config.Destination);
          MyBackApplication.toLog(TAG,"Dir:" + config.Dir);
          MyBackApplication.toLog(TAG,"ConnectionString:" + config.ConnectionString);
+         confings.add(config);
       }
+   }
+
+   @Override
+   public Config FindConfig(String file_ext) {
+      for(int i = 0; i < confings.size(); i++) {
+         if(confings.get(i).Ext.equals(file_ext)) {
+            return confings.get(i);
+         }
+      }
+      return null;
    }
 }

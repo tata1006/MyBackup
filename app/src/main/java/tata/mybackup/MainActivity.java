@@ -17,5 +17,6 @@ public class MainActivity extends Activity {
 
         MyBackupService myBackupService = new MyBackupService();
         myBackupService.ProcessJsonConfig();
+        myBackupService.DoBackup();
     }
 }
