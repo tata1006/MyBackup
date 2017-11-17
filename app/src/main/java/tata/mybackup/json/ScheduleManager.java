@@ -2,10 +2,10 @@ package tata.mybackup.json;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tata.mybackup.DataManager;
-import tata.mybackup.MyBackApplication;
 import tata.mybackup.classmanager.JsonManager;
 
 /**
@@ -26,14 +26,14 @@ public class ScheduleManager extends JsonManager {
       ScheduleManager scheduleManager = DataManager.covertObj(outPut, ScheduleManager.class);
       for(int i = 0; i < scheduleManager.schedules.size(); i++){
          Schedule schedule = scheduleManager.schedules.get(i);
-         MyBackApplication.toLog(TAG,"Ext:" + schedule.Ext);
-         MyBackApplication.toLog(TAG,"Time:" + schedule.Time);
-         MyBackApplication.toLog(TAG,"Interval:" + schedule.Interval);
+//         MyBackApplication.toLog(TAG,"Ext:" + schedule.Ext);
+//         MyBackApplication.toLog(TAG,"Time:" + schedule.Time);
+//         MyBackApplication.toLog(TAG,"Interval:" + schedule.Interval);
       }
    }
 
    @Override
-   public Config FindConfig(String file_ext) {
+   public ArrayList<Config> FindConfig() {
       return null;
    }
 

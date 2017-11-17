@@ -1,14 +1,14 @@
 package tata.mybackup.classmanager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import tata.mybackup.Candidate;
 import tata.mybackup.MyBackApplication;
+import tata.mybackup.filefinder.FileFinder;
+import tata.mybackup.filefinder.FileFinderFactory;
 import tata.mybackup.handler.Handler;
 import tata.mybackup.handler.HandlerFactory;
-import tata.mybackup.json.Config;
 import tata.mybackup.json.ConfigManager;
 import tata.mybackup.json.ScheduleManager;
 
@@ -32,40 +32,21 @@ public class MyBackupService {
     }
 
     public void DoBackup() {
-          //Homework 4
-        ArrayList<Candidate> candidates = this.FindFiles();
-
-        for(int i = 0 ; i < candidates.size(); i++){
-            MyBackApplication.toLog(TAG, "Ext:" + candidates.get(i).config.Ext);
-            BroadcastToHandlers(candidates.get(i));
-        }
-    }
-
-    private ArrayList<Candidate> FindFiles(){
-        ArrayList<Candidate> candidates = new ArrayList<>();
+        //Homework 4
+        FileFinder fileFinder = null;
         Candidate candidate = null;
-        Config config = null;
-
-
-        // Homework 4
-        //測試
-        ArrayList<String> file_ext = new ArrayList(Arrays.asList("cs", "DOCX", "jpg"));
-
-        for(int i = 0 ; i < file_ext.size() ; i++) {
-            candidate = new Candidate();
-
-            for (int j = 0; j < jsonManagers.size(); j++) {
-                config = null;
-                if (jsonManagers.get(j).FindConfig(file_ext.get(i)) != null) {
-                    config = jsonManagers.get(j).FindConfig(file_ext.get(i));
-                    break;
+        for(int i = 0 ; i < jsonManagers.size(); i++) {
+            if (jsonManagers.get(i).FindConfig() != null) {
+                for(int j = 0 ; j < jsonManagers.get(i).FindConfig().size();j++) {
+                    fileFinder = FileFinderFactory.Create("file", jsonManagers.get(i).FindConfig().get(j));
+                    while (fileFinder.hasNext()) {
+                        candidate = (Candidate) fileFinder.next();
+                        MyBackApplication.toLog(TAG, "Name =" + candidate.Name);
+                        BroadcastToHandlers(candidate);
+                    }
                 }
             }
-
-            candidate.config = config;
-            candidates.add(candidate);
         }
-        return candidates;
     }
 
     private void BroadcastToHandlers(Candidate candidate) {
@@ -88,10 +69,6 @@ public class MyBackupService {
             if(handlerFactory.Create(candidate.config.Handler.get(i)) != null)
                 handlers.add(handlerFactory.Create(candidate.config.Handler.get(i)));
         }
-
-//        String config_destination =  "";
-//        for(int i = 0 ; i < jsonManagers.size(); i++)
-//            config_destination = jsonManagers.get(i).FindDestination(candidate);
 
         handlers.add(HandlerFactory.Create("directory"));
 

@@ -1,5 +1,7 @@
 package tata.mybackup.classmanager;
 
+import java.util.ArrayList;
+
 import tata.mybackup.DataManager;
 import tata.mybackup.json.Config;
 
@@ -16,6 +18,6 @@ public abstract class JsonManager {
 
    public abstract void ProcessJsonConfig();
 
-    public abstract Config FindConfig(String file_ext);
+    public abstract ArrayList<Config> FindConfig();
 
 }

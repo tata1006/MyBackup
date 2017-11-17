@@ -12,7 +12,7 @@
 "connectionString": ""
 },
 {
-"ext": "DOCX",
+"ext": "doc",
 "location": "Documents",
 "subDirectory": true,
 "unit": "file",

@@ -37,9 +37,7 @@ public class FileHandler extends AbstractHandler{
       try {
          byte[] buffer = new byte[4096];
          outputStream = new ByteArrayOutputStream();
-//         inputStream = new FileInputStream(candidate.Name);
-         //測試
-         inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/input.txt");
+         inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/" + candidate.config.Location + "/" + candidate.Name);
          int read = 0;
 
          while ((read = inputStream.read(buffer)) != -1) {
@@ -48,8 +46,10 @@ public class FileHandler extends AbstractHandler{
 
       } catch (FileNotFoundException e) {
           e.printStackTrace();
+         MyBackApplication.toLog(TAG,"FileNotFoundException =" + e.toString());
       } catch (IOException e) {
           e.printStackTrace();
+         MyBackApplication.toLog(TAG,"IOException =" + e.toString());
       }finally {
          try {
             if (inputStream != null)

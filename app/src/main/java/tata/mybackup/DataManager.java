@@ -1,13 +1,17 @@
 package tata.mybackup;
 
 import android.content.res.AssetManager;
+import android.os.Environment;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -50,5 +54,26 @@ public class DataManager {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    //搜尋已下載檔案
+    public static List<String> FindFileExist(String path,String ext) {
+        List<String> FileName = new ArrayList<String>();
+        File rootFile = new File(Environment.getExternalStorageDirectory(),"/" +  path);
+        MyBackApplication.toLog(TAG,"Folder = " + Environment.getExternalStorageDirectory() + "/" +  path);
+        if (rootFile.exists() && rootFile.isDirectory()){
+            File[] the_Files = rootFile.listFiles() ;
+            for (File tempF : the_Files) {
+                try {
+                    if (tempF.getName().indexOf(ext) > -1) {
+						 MyBackApplication.toLog(TAG, "FileName:" + tempF.getName());
+                         FileName.add(tempF.getName());
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }else
+            rootFile.mkdir();
+        return FileName;
     }
 }
